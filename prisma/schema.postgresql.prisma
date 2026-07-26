@@ -1,0 +1,62 @@
+// This schema is used only by the production Docker image.
+// Keep schema.prisma on SQLite for the existing local Shopify CLI workflow.
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Session {
+  id                  String   @id
+  shop                String
+  state               String
+  isOnline            Boolean  @default(false)
+  scope               String?
+  expires             DateTime?
+  accessToken         String
+  userId              BigInt?
+  firstName           String?
+  lastName            String?
+  email               String?
+  accountOwner        Boolean  @default(false)
+  locale              String?
+  collaborator        Boolean? @default(false)
+  emailVerified       Boolean? @default(false)
+  refreshToken        String?
+  refreshTokenExpires DateTime?
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  @@index([shop])
+}
+
+model Artwork {
+  id           String   @id @default(cuid())
+  shop         String
+  originalKey  String
+  processedKey String?
+  filename     String
+  mimeType     String
+  bytes        Int
+  width        Int
+  height       Int
+  hasAlpha     Boolean
+  score        Int
+  status       String
+  report       Json
+  createdAt    DateTime @default(now())
+
+  @@index([shop, createdAt])
+}
+
+model UsageEvent {
+  id        String   @id @default(cuid())
+  shop      String
+  type      String
+  createdAt DateTime @default(now())
+
+  @@index([shop, type, createdAt])
+}
