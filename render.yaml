@@ -3,7 +3,7 @@ services:
     name: pod-artwork-checker
     runtime: docker
     plan: starter
-    healthCheckPath: /
+    healthCheckPath: /health
     disk:
       name: artwork-files
       mountPath: /var/data
@@ -13,6 +13,8 @@ services:
         value: production
       - key: PORT
         value: "10000"
+      - key: HOST
+        value: 0.0.0.0
       - key: SCOPES
         value: read_products
       - key: UPLOAD_DIR
