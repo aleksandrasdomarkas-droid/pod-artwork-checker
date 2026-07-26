@@ -16,5 +16,5 @@ COPY --from=build /app/node_modules ./node_modules
 COPY --from=build /app/package.json ./package.json
 COPY --from=build /app/build ./build
 COPY --from=build /app/prisma ./prisma
-EXPOSE 3000
+EXPOSE 10000
 CMD ["sh", "-c", "npx prisma migrate deploy --schema prisma/schema.postgresql.prisma && npm run start"]
